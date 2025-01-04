@@ -36,8 +36,10 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(409, "User with email or username already exits")
   }
 
+  console.log(req.files);
+
   const avatarLocalPath = req.files?.avatar[0]?.path;
-  const coverImageLocalPath = req.files?.coverImage[0]?.path;
+  const coverImageLocalPath = req.files?.coverImage?.[0]?.path || null;
 
   if(!avatarLocalPath){
     throw new ApiError(400, "Avatar required")
@@ -57,7 +59,7 @@ const registerUser = asyncHandler(async (req, res) => {
         coverImage: coverImage?.url || "",
         email, 
         password, 
-        username: username.tolowerCase()
+        username: username.toLowerCase()
     }
   )
 
